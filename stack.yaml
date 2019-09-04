@@ -1,0 +1,55 @@
+# sudo docker run -d --name NGinX --restart=unless-stopped --net=host -v  -e ="unms@smartinfeld.de" -e  -e CERT2="gast.kleines-waldhaeuschen.de" -e CERT3="nagios.ao-t.de" 
+
+version: '3.1'
+
+services:
+
+  proxy:
+    image: lerenn/lets-encrypt-reverse-proxy
+
+    container_name: nginx
+
+    restart: always
+
+    environment:
+      - LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+      - CERT1: $(CERT1)
+
+    volumes:
+      - ${PROXY_DATA_LOCATION}/letsencrypt:/etc/letsencrypt
+      - ${PROXY_DATA_LOCATION}/sites-enabled:/etc/nginx/sites-enabled
+      - ${PROXY_DATA_LOCATION}/snippets:/etc/nginx/snippets
+    
+    networks:
+      - default
+      - outside
+
+  portainer:
+    image: portainer/portainer
+
+    container_name: portainer
+
+    restart: always
+
+    ports:
+      - "9000:9000"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${PROXY_DATA_LOCATION}/portainer:/data
+
+    networks:
+      - default
+       
+    depends_on:
+      - proxy
+
+networks:
+  default:
+    external:
+      name: ${NETWORK:-webproxy}
+  outside:
+    external:
+      name: ${SERVICE_NETWORK:-webservices}
+
+  
