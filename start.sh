@@ -7,15 +7,14 @@ else
 fi
 
 # 2. Make Directories if not exists
-mkdir -p echo ${PROXY_DATA_LOCATION}/portainer
-mkdir -p echo ${PROXY_DATA_LOCATION}/sites-enabled
-mkdir -p echo ${PROXY_DATA_LOCATION}/snippets
-mkdir -p echo ${PROXY_DATA_LOCATION}/letsencrypt
+mkdir -p ${PROXY_DATA_LOCATION}/portainer
+mkdir -p ${PROXY_DATA_LOCATION}/sites-enabled
+mkdir -p ${PROXY_DATA_LOCATION}/snippets
+mkdir -p ${PROXY_DATA_LOCATION}/letsencrypt
 
 # 2. Substitute env vars in config files and copy to
-export ${CERT1_SERVER_NAME}
-envsubst \${CERT1_SERVER_NAME}<./nginx-server-portainer.conf
-cp -f ./nginx-server-portainer.conf echo ${PROXY_DATA_LOCATION}/sites-enabled
+envsubst < ./sample.nginx-server-portainer.conf > ./nginx-server-portainer.conf
+cp -f ./nginx-server-portainer.conf ${PROXY_DATA_LOCATION}/sites-enabled
 
 
 # 3. Start services
