@@ -46,7 +46,7 @@ services:
 
 networks:
   inside:
-    internal:
+    internal: true
       name: ${SERVICE_NETWORK:-webservices}
 
   
