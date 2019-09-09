@@ -13,9 +13,13 @@ mkdir -p ${PROXY_DATA_LOCATION}/snippets
 mkdir -p ${PROXY_DATA_LOCATION}/letsencrypt
 
 # 2. Substitute env vars in config files and copy to
-envsubst < ./sample.nginx-server-portainer.conf > ./nginx-server-portainer.conf
-cp -f ./nginx-server-portainer.conf ${PROXY_DATA_LOCATION}/sites-enabled
+# This has to be reworked
+#
+#envsubst < ./sample.nginx-server-portainer.conf > ./nginx-server-portainer.conf
+#cp -f ./nginx-server-portainer.conf ${PROXY_DATA_LOCATION}/sites-enabled
 
+# 3. Create Internal Service Network
+# TBD
 
-# 3. Start services
+# 4. Start services
 docker-compose -f stack.yaml up -d

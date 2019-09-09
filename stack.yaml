@@ -11,10 +11,6 @@ services:
 
     restart: always
 
-    ports:
-      - "80:80"
-      - "443:443"
-
     environment:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - CERT1=${CERT1}
@@ -25,8 +21,8 @@ services:
       - ${PROXY_DATA_LOCATION}/snippets:/etc/nginx/snippets
     
     networks:
-      - default
-      - outside
+      - host
+      - inside
 
   portainer:
     image: portainer/portainer
@@ -36,24 +32,20 @@ services:
     restart: always
 
     ports:
-      - "9000:9000"
+      - "9000"
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${PROXY_DATA_LOCATION}/portainer:/data
 
     networks:
-      - default
+      - inside
        
     depends_on:
       - proxy
 
 networks:
-  default:
-    external:
-      name: ${NETWORK:-webproxy}
-  outside:
-    external:
-      name: ${SERVICE_NETWORK:-webservices}
+  inside:
+    name: ${SERVICE_NETWORK:-webservices}
 
   
