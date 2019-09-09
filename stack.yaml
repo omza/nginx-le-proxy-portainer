@@ -1,6 +1,6 @@
 # sudo docker run -d --name NGinX --restart=unless-stopped --net=host -v  -e ="unms@smartinfeld.de" -e  -e CERT2="gast.kleines-waldhaeuschen.de" -e CERT3="nagios.ao-t.de" 
 
-version: '3.1'
+version: '3.7'
 
 services:
 
@@ -20,9 +20,13 @@ services:
       - ${PROXY_DATA_LOCATION}/sites-enabled:/etc/nginx/sites-enabled
       - ${PROXY_DATA_LOCATION}/snippets:/etc/nginx/snippets
     
+    ports:
+      - "80:80"
+      - "443:443"
+    
     networks:
-      - host
-      - inside
+      - frontend
+      - backend
 
   portainer:
     image: portainer/portainer
@@ -32,21 +36,24 @@ services:
     restart: always
 
     ports:
-      - "9000"
+      - "9000:9000"
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${PROXY_DATA_LOCATION}/portainer:/data
 
     networks:
-      - inside
+      - backend
        
     depends_on:
       - proxy
 
 networks:
-  inside:
-    internal: true
-    #name: ${SERVICE_NETWORK:-webservices}
+  frontend:
+    external:
+      name: ${NETWORK:-webproxy}
+  backend:
+    external:
+      name: ${SERVICE_NETWORK:-portainer}  
 
   
