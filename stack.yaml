@@ -10,6 +10,7 @@ services:
     restart: unless-stopped
 
     environment:
+      - STARTUP_WAIT=60 
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - CERT1=${CERT1}
       - CERT2=${CERT2}
