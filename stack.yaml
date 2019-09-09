@@ -47,6 +47,6 @@ services:
 networks:
   inside:
     internal: true
-    name: ${SERVICE_NETWORK:-webservices}
+    #name: ${SERVICE_NETWORK:-webservices}
 
   
