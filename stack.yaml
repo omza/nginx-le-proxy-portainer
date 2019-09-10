@@ -14,12 +14,14 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - CERT1=${CERT1}
       - CERT2=${CERT2}
-      - CERT3=${CERT3}      
+#      - CERT3=${CERT3}      
 
     volumes:
       - ${PROXY_DATA_LOCATION}/letsencrypt:/etc/letsencrypt
       - ${PROXY_DATA_LOCATION}/sites-enabled:/etc/nginx/sites-enabled
       - ${PROXY_DATA_LOCATION}/snippets:/etc/nginx/snippets
+      - ${PROXY_DATA_LOCATION}/logs:/var/log
+      - ${PROXY_DATA_LOCATION}/webroot:/var/www/html
     
     ports:
       - "80:80"
