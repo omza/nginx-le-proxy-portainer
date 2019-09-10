@@ -13,7 +13,7 @@ services:
       - STARTUP_WAIT=0 
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - CERT1=${CERT1}
-      - CERT2=${CERT2}
+#      - CERT2=${CERT2}
 #      - CERT3=${CERT3}      
 
     volumes:
